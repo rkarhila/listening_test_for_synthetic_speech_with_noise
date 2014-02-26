@@ -159,9 +159,9 @@ $preferencetext2_fi="Ottaen huomioon näytteiden <b>LAADUN:</b>";
 
 
 $prefcats=array(
-    "A" => "First sample is better <br><i>Ensimmäinen näyte on parempi</i>", 
-    "B" => "Second sample is better <br><i>Toinen näyte on parempi</i>",
-    "same" => "They sound exactly the same <br><i>Näytteet kuulostavat täysin samalta</i>");
+    "A" => "Sample A is better <br><i>Näyte A on parempi</i>", 
+    "B" => "Sample B is better <br><i>Näyte B on parempi</i>",
+    "same" => "The samples sound exactly the same <br><i>Näytteet kuulostavat täysin samalta</i>");
 
 
 
@@ -1004,6 +1004,12 @@ function generate_preftest( $reffile, $testfileA, $testfileB) {
 
     global $testtablestyle, $testtdstyle, $preferencetext1, $preferencetext1_fi,  $preferencetext2, $preferencetext2_fi, $prefcats, $page, $listener, $nextpage, $testurl, $theme, $categorypage, $categorypagecount, $DEBUGGING;
     
+    $tablew="635";
+    $questionw="300";
+    $fillerw="120";
+    $playerw="200";
+    
+
     $str="";
     
     $str .=  "<form name=\"testform\" method=\"post\" action=\"$testurl\" onsubmit='return valButton(\"preftest\")'>\n";
@@ -1013,38 +1019,50 @@ function generate_preftest( $reffile, $testfileA, $testfileB) {
     $str .=  "<input type=hidden name=\"reference\" value=\"$reffile\">\n";
     $str .=  "<input type=hidden name=sampleA value=\"$testfileA\">\n";
     $str .=  "<input type=hidden name=sampleB value=\"$testfileB\">\n";
-    $str .=  "<table $testtablestyle>\n";
+    $str .=  "<table $testtablestyle >\n";
 //    $str .= "<tr><td colspan=2><img src=graphic3.png style=align=center></td></tr>\n";
 
-    $str .=  "<tr><th colspan=2 $testtdstyle>$theme, trial $categorypage / $categorypagecount </th></tr>\n";
+    $str .=  "<tr><th colspan=4 $testtdstyle>$theme, trial $categorypage / $categorypagecount </th></tr>\n";
 //    $str .=  "<tr><td $testtdstyle width=50%>$preferencetext1</td><td $testtdstyle width=50%>$preferencetext1_fi</td></tr></table><table $testtablestyle>\n";
-    $str .=  "<tr><td $testtdstyle colspan=2>$preferencetext1<br><i>$preferencetext1_fi</i></td></tr></table><table $testtablestyle>\n";
+    $str .=  "<tr><td $testtdstyle colspan=4 width=$questionw>$preferencetext1<br><i>$preferencetext1_fi</i></td></tr></table><table align=center cellpadding=5 cellspacing=2 width=$tablew>\n";
 
     if ($DEBUGGING) {
-	$str .="<tr><td $testtdstyle colspan=2>$reffile ></td></tr>";
+	$str .="<tr><td $testtdstyle colspan=4>$reffile ></td></tr>";
     }
     
-    $str .= 	"<tr><td $testtdstyle colspan=2>Reference:<br><audio src=$reffile controls width=100></audio></td></tr>\n";
+    $str .= 	"<tr><td width=$fillerw $testtdstyle></td><td $testtdstyle colspan=2 width=$questionw>Reference:<br><audio src=$reffile controls width=$playerw></audio></td><td width=$fillerw $testtdstyle></td></tr>\n";
 
     if ($DEBUGGING) {
-	$str .="<tr><td $testtdstyle colspan=2>$testfileA ></td></tr>";
+	$str .="<tr><td $testtdstyle colspan=4>$testfileA ></td></tr>";
     }
     
-    $str .= 	"<tr><td $testtdstyle colspan=2>Test sample A:<br><audio src=$testfileA controls width=100></audio></td></tr>\n";
+    $str .= 	"<tr><td $testtdstyle colspan=2 width=$questionw>Test sample A:<br><audio src=$testfileA controls width=$playerw></audio></td>\n";
 
     if ($DEBUGGING) {
 	$str .="<tr><td $testtdstyle colspan=2>$testfileB ></td></tr>";
     }
 
-    $str .= 	"<tr><td $testtdstyle colspan=2>Test sample B:<br><audio src=$testfileB controls width=100></audio></td></tr>\n";
+    $str .= 	"<td $testtdstyle colspan=2 width=$questionw>Test sample B:<br><audio src=$testfileB controls width=$playerw></audio></td></tr>\n";
     
 //    $str .=  "<tr><td $testtdstyle width=50%>$preferencetext2</td><td $testtdstyle width=50%>$preferencetext2_fi</td></tr></table><table $testtablestyle>\n";
-    $str .=  "<tr><td $testtdstyle colspan=2>$preferencetext2<br><i>$preferencetext2_fi</i></td></tr>\n";
+    $str .=  "<tr><td $testtdstyle colspan=4 width=$questionw>$preferencetext2<br><i>$preferencetext2_fi</i></td></tr>\n";
 
-    foreach ($prefcats as $key => $value) {
-	$str .=  "<tr><td $testtdstyle><input name=\"preftest\" value=\"$key\" type=\"radio\" required=\"required\" > $key.</td><td $testtdstyle>$value </td></tr>\n";
-    }
-    $str .=  "<tr><td $testtdstyle colspan=2 align=right><input type=\"submit\">  </td></tr>\n";
+//    foreach ($prefcats as $key => $value) {
+    $keys=array_keys($prefcats);
+    $key=$keys[0];
+    $value=$prefcats[$key];
+
+    $str .=  "<tr><td $testtdstyle colspan=2><table><tr><td><input name=\"preftest\" value=\"$key\" type=\"radio\" required=\"required\" ></td><td>$value </td></tr></table></td>\n";
+
+    $key=$keys[1];
+    $value=$prefcats[$key];
+    $str .=  "<td $testtdstyle colspan=2><table><tr><td><input name=\"preftest\" value=\"$key\" type=\"radio\" required=\"required\" ></td><td $testtdstyle>$value </td></tr></table></td></tr>\n";
+
+    $key=$keys[2];
+    $value=$prefcats[$key];
+    $str .=  "<td  width=$fillerw $testtdstyle></td><td $testtdstyle colspan=2><table width=$questionw><tr><td><input name=\"preftest\" value=\"$key\" type=\"radio\" required=\"required\" ></td><td>$value </td><tr></table></td><td width=$fillerw  $testtdstyle></td>\n";
+
+    $str .=  "<tr><td $testtdstyle colspan=4 align=right><input type=\"submit\">  </td></tr>\n";
 
 //    $str .=  "<tr><td $testtdstyle colspan=2>You can comment the test in the text box below:<br><textarea name=\"comments\" cols=\"60\" rows=\"5\"></textarea> </td></tr>\n";
 
