@@ -786,18 +786,19 @@ elseif ($page == $test1pagelimit +1 )  {
     print "<input type=hidden name=\"page\" value=\"100\">\n";
     print "<input type=hidden name=\"listener\" value=\"$listener\">\n";
     print "</td></tr>";
-    print "<tr><td colspan=2>I want...</td></tr>";
-    print "<tr><td><input name=\"reward\" value=\"lunch\" type=\"radio\"  required=\"required\"></td><td>1. TUAS cafeteria lunch vouchers for 8.10&euro; (ie. 3 student lunches)</tr></td>";
-    print "<tr><td><input name=\"reward\" value=\"movie\" type=\"radio\"  required=\"required\"></td><td>2. A movie ticket (Finnkino)</tr></td>";
-    print "<tr><td><input name=\"reward\" value=\"chocolate\" type=\"radio\"  required=\"required\"></td><td>3. A chocolate bar (Fazerin sininen, 200g) (Only delivery options 1, 2 and 3 possible!)</tr></td>";
-    print "<tr><td><input name=\"reward\" value=\"nothing\" type=\"radio\"  required=\"required\"></td><td>4. I am content with my life - I do not want anything!</tr></td>";
+    print "<tr><td colspan=2>I want...</td></tr><tr><td>";
+    print "<ol><li> TUAS cafeteria lunch vouchers for around 8&euro; (ie. 3 student lunches)<br>";
+    print "a. <input name=\"reward\" value=\"lunch_student\" type=\"radio\"  required=\"required\"> student lunch tickets<br>";    
+    print "b. <input name=\"reward\" value=\"lunch_personnel\" type=\"radio\"  required=\"required\"> personnel lunch ticket <br>";
+    print "<li><input name=\"reward\" value=\"movie\" type=\"radio\"  required=\"required\"> A movie ticket (Finnkino)<br>";
+    print "<li><input name=\"reward\" value=\"chocolate\" type=\"radio\"  required=\"required\"> A chocolate bar (Fazerin sininen, 200g) (Only delivery options 1, 2 and 3 possible!)<br>";
+    print "<li><input name=\"reward\" value=\"nothing\" type=\"radio\"  required=\"required\">I am content with my life - I do not want anything!<br></td></tr>";
     print "</table>";
 
 
     print  "<table $testtablestyle>\n";
     print "<tr><td colspan=3 $testtdstyle >And please select delivery:</td></tr>";
-    print "<tr><td><input name=\"delivery\" value=\"collect\" type=\"radio\"  required=\"required\" checked></td><td colspan=2>1. Collect from room C312 in T-talo</td></tr>";
-
+    print "<tr><td><input name=\"delivery\" value=\"collect\" type=\"radio\"  required=\"required\" checked></td><td colspan=2>1. Collect from room I318 in ELEC-building</td></tr>";
     print "<tr><td><input name=\"delivery\" value=\"riippari\" type=\"radio\"  required=\"required\"> </td><td colspan=2>2.  Riippari: </td></tr>";
     print "<tr><td> </td><td> Name:</td><td> <input type=text name=\"riippari-name\" width=40></td></tr>";
     print "<tr><td> </td><td> Guild:</td><td> ";
@@ -805,7 +806,8 @@ elseif ($page == $test1pagelimit +1 )  {
     print "<option value=\"AS\">AS</option>";
     print "<option value=\"Athene\">Athene</option>";
     print "<option value=\"Prodeko\">Prodeko</option>";
-    print "<option value=\"TIK\">TIK</option></select>";
+    print "<option value=\"TIK\">TIK</option>";
+    print "<option value=\"ELEC\">SIK</option></select>";
     print "</select></td></tr>";
 //    "<input type=text name=\"riippari-guild\" width=20></td></tr>";
     print "<tr><td> </td><td> Year:</td><td>";
@@ -842,7 +844,7 @@ else {
     print  "<table $testtablestyle><tr><td>It's all good! <br>";
     
     $rew = "nothing";
-    if ($_POST['reward'] == "lunch") {
+    if ($_POST['reward'] == "lunch_student" | $_POST['reward'] == "lunch_personnel") {
 	$rew="lunch tickets";
     } 
     elseif ($_POST['reward'] == "movie") {
@@ -854,7 +856,7 @@ else {
 
     if ($rew != "nothing") {
 	if ($_POST['delivery'] == "collect") {
-	    print "Please collect your $rew after 2nd April from room C312 or C311 in T-talo (Konemiehentie 2)";
+	    print "Please collect your $rew after 2nd April from room  or C311 in T-talo (Konemiehentie 2)";
 	}
 	elseif ($_POST['delivery'] == "aaltopost") {
 	    print "We'll mail your $rew to \"".$_POST['aalto-name'].", P.O.Box ".$_POST['aalto-box']."\" at latest on 3rd April";	    
