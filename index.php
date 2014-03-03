@@ -8,6 +8,7 @@ $DEBUGGING=False;
 ?>
 <?php
 $testurl="http://your_web_server/some_path/ listening_test_for_synthetic_speech_with_noise/index.php";
+
 $testclosed=False;
 $maxtesters=31;
 
@@ -788,8 +789,10 @@ elseif ($page == $test1pagelimit +1 )  {
     print "</td></tr>";
     print "<tr><td colspan=2>I want...</td></tr><tr><td>";
     print "<ol><li> TUAS cafeteria lunch vouchers for around 8&euro; (ie. 3 student lunches)<br>";
-    print "a. <input name=\"reward\" value=\"lunch_student\" type=\"radio\"  required=\"required\"> student lunch tickets<br>";    
-    print "b. <input name=\"reward\" value=\"lunch_personnel\" type=\"radio\"  required=\"required\"> personnel lunch ticket <br>";
+    print "a. <input name=\"reward\" value=\"lunch_tuas_student\" type=\"radio\"  required=\"required\"> student lunch tickets for TUAS cafeteria<br>";    
+    print "b. <input name=\"reward\" value=\"lunch_tuas_personnel\" type=\"radio\"  required=\"required\"> personnel lunch ticket for TUAS cafeteria<br>";
+    print "c. <input name=\"reward\" value=\"lunch_kvarkki_student\" type=\"radio\"  required=\"required\"> student lunch tickets for Kvarkki cafeteria<br>";    
+    print "d. <input name=\"reward\" value=\"lunch_kvarkki_personnel\" type=\"radio\"  required=\"required\"> personnel lunch ticket for Kvarkki cafeteria<br>";
     print "<li><input name=\"reward\" value=\"movie\" type=\"radio\"  required=\"required\"> A movie ticket (Finnkino)<br>";
     print "<li><input name=\"reward\" value=\"chocolate\" type=\"radio\"  required=\"required\"> A chocolate bar (Fazerin sininen, 200g) (Only delivery options 1, 2 and 3 possible!)<br>";
     print "<li><input name=\"reward\" value=\"nothing\" type=\"radio\"  required=\"required\">I am content with my life - I do not want anything!<br></td></tr>";
@@ -844,7 +847,7 @@ else {
     print  "<table $testtablestyle><tr><td>It's all good! <br>";
     
     $rew = "nothing";
-    if ($_POST['reward'] == "lunch_student" | $_POST['reward'] == "lunch_personnel") {
+    if ( preg_match ('/lunch.*/',$_POST['reward']) ) { #if ($_POST['reward'] == "lunch_student" | $_POST['reward'] == "lunch_personnel") {
 	$rew="lunch tickets";
     } 
     elseif ($_POST['reward'] == "movie") {
@@ -856,16 +859,16 @@ else {
 
     if ($rew != "nothing") {
 	if ($_POST['delivery'] == "collect") {
-	    print "Please collect your $rew after 2nd April from room  or C311 in T-talo (Konemiehentie 2)";
+	    print "Please collect your $rew after 6th April from room  or C311 in T-talo (Konemiehentie 2)";
 	}
 	elseif ($_POST['delivery'] == "aaltopost") {
-	    print "We'll mail your $rew to \"".$_POST['aalto-name'].", P.O.Box ".$_POST['aalto-box']."\" at latest on 3rd April";	    
+	    print "We'll mail your $rew to \"".$_POST['aalto-name'].", P.O.Box ".$_POST['aalto-box']."\" at latest on 6th April";	    
 	}
 	elseif ($_POST['delivery'] == "mail") {
-	    print "We'll mail your $rew to \"".$_POST['postal-name'].", ".$_POST['postal-street'].", ".$_POST['postal-code']."\" at latest on 3rd April";	    	    
+	    print "We'll mail your $rew to \"".$_POST['postal-name'].", ".$_POST['postal-street'].", ".$_POST['postal-code']."\" at latest on 6th April";	    	    
 	}
 	elseif ($_POST['delivery'] == "riippari") {    	   
-	    print "We'll drop your $rew in your riippari \"".$_POST['riippari-name'].", ".$_POST['riippari-guild']."-".$_POST['riippari-year']."\" at latest on 3rd April";	    	    
+	    print "We'll drop your $rew in your riippari \"".$_POST['riippari-name'].", ".$_POST['riippari-guild']."-".$_POST['riippari-year']."\" at latest on 6th April";	    	    
 	}
     }
     print "</td></tr></table>";
