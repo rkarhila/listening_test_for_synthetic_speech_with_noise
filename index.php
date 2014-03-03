@@ -788,7 +788,7 @@ elseif ($page == $test1pagelimit +1 )  {
     print "<input type=hidden name=\"listener\" value=\"$listener\">\n";
     print "</td></tr>";
     print "<tr><td colspan=2>I want...</td></tr><tr><td>";
-    print "<ol><li> TUAS cafeteria lunch vouchers for around 8&euro; (ie. 3 student lunches)<br>";
+    print "<ol><li> TUAS cafeteria lunch vouchers for around 5&euro; (ie. 2 student lunches or 1 personnel lunch)<br>";
     print "a. <input name=\"reward\" value=\"lunch_tuas_student\" type=\"radio\"  required=\"required\"> student lunch tickets for TUAS cafeteria<br>";    
     print "b. <input name=\"reward\" value=\"lunch_tuas_personnel\" type=\"radio\"  required=\"required\"> personnel lunch ticket for TUAS cafeteria<br>";
     print "c. <input name=\"reward\" value=\"lunch_kvarkki_student\" type=\"radio\"  required=\"required\"> student lunch tickets for Kvarkki cafeteria<br>";    
